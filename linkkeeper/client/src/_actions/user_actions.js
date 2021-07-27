@@ -19,12 +19,11 @@ export function registerUser(dataToSubmit){
 
 export function loginUser(dataToSubmit){
     const request = axios.post(`${USER_SERVER}/login`,dataToSubmit)
-                .then(response => response.data);
-
+                .then(response => response.data );
     return {
         type: LOGIN_USER,
         payload: request
-    }
+    } // return을 시켜서 reducer로 보내야한다.
 }
 
 export function auth(){
