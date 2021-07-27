@@ -59,6 +59,7 @@ router.post("/login", (req, res) => {
     });
 });
 
+// 토큰을 없애면 로그아웃 
 router.get("/logout", auth, (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { token: "", tokenExp: "" }, (err, doc) => {
         if (err) return res.json({ success: false, err });
@@ -67,5 +68,12 @@ router.get("/logout", auth, (req, res) => {
         });
     });
 });
+
+router.get("/getresult", (req, res) => {
+    return res.status(200).send({
+        success:true
+    });
+});
+
 
 module.exports = router;
