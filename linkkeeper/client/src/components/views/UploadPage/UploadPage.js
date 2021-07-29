@@ -2,8 +2,10 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Form, Button } from 'antd';
+import { useSelector } from 'react-redux';
 
 function UploadPage() {
+    const user = useSelector(state => state.user) 
     const [link, setLink] = useState('')
     const [name, setName] = useState('')
     const [image, setImage] = useState('')
@@ -20,6 +22,10 @@ function UploadPage() {
         setLink(e.currentTarget.value)
     }
 
+    const onCategoryChange = (e) => {
+        setCategory(e.currentTarget.value)
+    }
+
     const onSubmitLink = () => {
 
         const body = {
@@ -30,6 +36,12 @@ function UploadPage() {
             .then(response => {
                 if(response.data.success){
                     console.log(response.data.message)
+                    setName(response.data.message[0])
+                    setCategory(response.data.message[1])
+                    setDescription("설명")
+                    setRatio(93)
+                    setFeature("특징")
+                    setImage("https://play-lh.googleusercontent.com/3Wn9P0lK2sLk8fQehm--7PLqYXPto7sDLWmslsmkg5k-6YfFCUMK5nVzppJidTpTFE0=s360-rw")
                 }
             })
             .catch(err => {
@@ -37,8 +49,35 @@ function UploadPage() {
             })
     }
 
+    const onSubmitService = (e) => {
+        e.preventDefault()
+
+
+        const body = {
+            writer: user.userData._id,
+            name: name,
+            link: link,
+            category: category,
+            description: description,
+            ratio: parseInt(ratio),
+            feature: feature,
+            image: image
+        }
+
+        axios.post('/api/services/saveService', body)
+            .then(response => {
+                if(response.data.success){
+                    console.log("response.data")
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
     return (
         <>
+        <Form onSubmit={onSubmitService}>
         <Form onSubmit={onSubmitLink}>
             <div style={{display: 'block', alignItems: 'center', backgroundColor: 'red'}}>
                 
@@ -48,9 +87,32 @@ function UploadPage() {
                 <Button type='primary' size='large' onClick={onSubmitLink} >링크 제출</Button>
             </div>
         </Form>
-
+        <p>이름</p>
         <input onChange={onNameChange} value={name}>
-                </input>
+        </input>
+
+        <p>카테고리</p>
+        <input onChange={onCategoryChange} value={category}>
+        </input>
+
+        <p>사진</p>
+        <input value={category}>
+        </input>
+
+        <p>핵심 기능 설명</p>
+        <input value={description}>
+        </input>
+
+        <p>5점을 준 유저 비율</p>
+        <input value={ratio}>
+        </input>
+
+        <p>특징</p>
+        <input value={feature}>
+        </input>
+
+        <Button onClick={onSubmitService}>서비스 등록하기</Button>
+        </Form>
         </>
     )
 }

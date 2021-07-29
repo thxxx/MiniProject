@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { User } = require("../models/User");
+const { Service } = require("../models/Service");
 const { PythonShell } = require('python-shell')
-let pyshell = new PythonShell('/crawlService.py')
 
 const { auth } = require("../middleware/auth");
 
@@ -49,5 +48,19 @@ router.post('/uploadLink', (req, res) => {
     })
 })
 
+router.post('/saveService', (req, res) => {
+
+    const service = new Service(req.body)
+
+    console.log("받은 정보 ", service)
+
+    service.save((err, doc) => {
+        if(err) return res.json({ success: false, err})
+        console.log("lplez")
+        return res.status(200).json({
+            success : true,
+        })
+    })
+})
 
 module.exports = router;

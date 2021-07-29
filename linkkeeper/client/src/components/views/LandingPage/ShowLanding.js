@@ -3,6 +3,7 @@ import React from 'react'
 function ShowLanding() {
     return (
         <>
+
         <div style={{display: 'block', alignItems: 'center', justifyContent: 'center'}}>
         <div style={{fontSize:'5em'}}>
             Service Curator - 서비스추천소에 오신걸 환영합니다.
