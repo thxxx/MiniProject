@@ -3,23 +3,28 @@ import { useState, useEffect } from 'react'
 import { Card, Button, Row, Col } from "antd";
 import axios from 'axios';
 import ResultCard from './ResultCard'
+import ShowLanding from './ShowLanding'
+
 
 function LandingPage() {
 
     const [showType, setShowType] = useState("none");
     const [options, setOptions] = useState({
-        a:false,
-        b:false,
-        c:false
-    });
+        disease:false,
+        workout:false,
+        tool:false,
+        schoolStudy:false,
+        saveMoney:false,
+        scheduleMoney:false,
+        selfImprovement:false,
+        headling:false,
+        hobby:false,
+        lifestyle:false,
+        funny:false
+    })
     const [results, setResults] = useState([1,2,3]);
-
-    const example = {
-        a:"aaa",
-        b:"bbb",
-        c:"ccc"
-    }
-    const [Categories, setCategories] = useState(["a", "b", "c"]);
+    const [ResultLoad, setResultLoad] = useState(false);
+    const [Categories, setCategories] = useState(["disease","workout","tool","schoolStudy","saveMoney","scheduleMoney","selfImprovement","headling","hobby","lifestyle","funny"]);
 
     (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm", b="https://embed.typeform.com/"; if(!gi.call(d,id)) { js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })();
 
@@ -45,14 +50,17 @@ function LandingPage() {
 
     const checkOptions = (category) => {
         switch(category){
-            case "a":
-                setOptions({...options, a:!options["a"]});
+            case "disease":
+                setOptions({...options, disease:!options["disease"]});
                 break;
-            case "b":
-                setOptions({...options, b:!options["b"]});
+            case "workout":
+                setOptions({...options, workout:!options["workout"]});
                 break;
-            case "c":
-                setOptions({...options, c:!options["c"]});
+            case "tool":
+                setOptions({...options, tool:!options["tool"]});
+                break;
+            case "schoolStudy":
+                setOptions({...options, schoolStudy:!options["schoolStudy"]});
                 break;
             default:
                 break;
@@ -73,27 +81,60 @@ function LandingPage() {
                 <Button onClick={e => checkOptions(category)} style={{width: '100%', height: '100px' }}>
                     {options[category.toString()] ? "true":"false"}
                 </Button>
-                <div style={style}>col-6
-                    <span></span>
+                <div style={style}>
+                    {category}
                 </div>
             </Col>
         )
     });
 
-    const getRecommendedResult = (e) => {
+    const delay = (time) => {
+        return new Promise((resolve)=> setTimeout(resolve, time))
+    }
+
+    async function loadingResult(time) {
+        await delay(time);
+        console.log("시간이 지났습니다.");
+        return "done";
+    }
+
+    async function getRecommendedResult(e){
         e.preventDefault();
+        setResultLoad(false)
 
         const body = {
             option:options
         }
-        axios.get(`/api/users/getresult`).then(response => {
-            if (response.status === 200) {
-                // 결과 출력. 고른걸 바탕으로!
 
-            } else {
-                alert('Log Out Failed')
-            }
-            });
+        axios.post('/api/services/getresult', body)
+            .then(response => {
+                if(response.data.success){
+                    console.log(response.data.message)
+                }else{
+                    console.log("실패")
+                }
+            })
+            .catch(err => {
+                console.log("에러메시지", err)
+            })
+
+        axios.get('/api/services/getservice')
+            .then(response => {
+                if(response.data.success){
+                    console.log(response.data.message)
+                }else{
+                    console.log("실패")
+                }
+            })
+            .catch(err => {
+                console.log("에러메시지", err)
+            })
+
+        const delayTime = parseInt(Math.random()*1500 + 2000)
+        await loadingResult(delayTime)
+        console.log("시간이 지났습니다.")
+        setResultLoad(true)
+
     }
 
     const showResults = results.map((result, index) => {
@@ -105,8 +146,15 @@ function LandingPage() {
         )
     })
 
+    const showLoading = () => {
+        return (
+            <div>로딩중입니다.</div>
+        )
+    }
+
     return (
         <>
+        <ShowLanding />
         <Row gutter={32, 16}>
             {categoryTable}
         </Row>
@@ -119,12 +167,15 @@ function LandingPage() {
             
             <Button onClick={getRecommendedResult}>추천받기.</Button>
 
-            <span style={{display:"flex", justifycontent:"center"}}>
-                <Row gutter={32, 16} style={{width:'80%'}}>
-                    {showResults}
-                </Row>
-            </span>
-
+            {
+            ResultLoad ? <span style={{display:"flex", justifycontent:"center"}}>
+                            <Row gutter={32, 16} style={{width:'80%'}}>
+                                {showResults}
+                            </Row> 
+                        </span> 
+            : <div> {showLoading} 로딩 중</div>
+            } 
+            
             <Button onClick={showTypeform}>버튼입니다.</Button>
 
             <span style={{display: showType, width:'80%' }} >

@@ -1,14 +1,53 @@
 const express = require('express');
 const router = express.Router();
+const { User } = require("../models/User");
+const { PythonShell } = require('python-shell')
+let pyshell = new PythonShell('/crawlService.py')
+
+const { auth } = require("../middleware/auth");
 
 //=================================
-//             Service
+//             Services
 //=================================
 
-router.get("/getresult", (req, res) => {
+router.post('/getresult', (req, res) => {
     return res.status(200).json({
-        success:true
-    });
-});
+        success:true,
+        message:req.body
+    })
+})
+
+router.get('/getservice', (req, res)=> {
+    return res.status(200).json({
+        success:true,
+        message:"get done"
+    })
+})
+
+router.post('/uploadLink', (req, res) => {
+    const link = req.body.link
+    console.log("recieved link : ",link)
+
+    let options = {
+        mode: 'text',
+        pythonPath: '', // Python의 경로를 나타낸다
+        pythonOptions: ['-u'], // get print results in real-time
+        scriptPath:`${__dirname}`, //스크립트 있는곳
+        args: [link] // Python Script에 넘겨줄 인자 목록
+    };
+    
+    PythonShell.run('crawlService.py', options, (err, msg) => {
+        if(err) {
+            console.log("에러입니다,")
+            throw err;
+        } 
+        return res.status(200).json({
+            success : true,
+            message : msg
+        })
+
+    })
+})
+
 
 module.exports = router;
