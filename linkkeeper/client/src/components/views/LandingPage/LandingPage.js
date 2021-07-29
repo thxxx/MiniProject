@@ -158,7 +158,7 @@ function LandingPage() {
         <Row gutter={32, 16}>
             {categoryTable}
         </Row>
-            <div class="app">
+            <div className="app">
                 <span style={{ fontSize: '2rem' }}>
                     Let's Start Coding!'
                 </span>
@@ -179,7 +179,7 @@ function LandingPage() {
             <Button onClick={showTypeform}>버튼입니다.</Button>
 
             <span style={{display: showType, width:'80%' }} >
-                <div class="typeform-widget" 
+                <div className="typeform-widget" 
                     data-url="https://form.typeform.com/to/Hw25d5Gh?typeform-medium=embed-snippet" 
                     style={{width: '100%', height: '500px' }}>
                 </div>

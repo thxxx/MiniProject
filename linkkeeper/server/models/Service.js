@@ -1,23 +1,30 @@
 const mongoose = require('mongoose');
 const saltRounds = 10;
 const moment = require("moment");
+const Schema = mongoose.Schema;
 
 const serviceSchema = mongoose.Schema({
+    writer:{
+        type:Schema.Types.ObjectId,
+        ref:'User'
+    },
     name: {
         type:String,
-        maxlength:50
+        maxlength:100
     },
-    image: String,
+    image: { 
+        type:String 
+    },
     description: {
         type:String,
-        minlength:10
+        minlength:1
     },
-    ratingRatio:{
+    ratio:{
         type: Number,
     },
     feature:{
         type:String,
-        minlength:10
+        minlength:1
     },
     link:{
         type:String,
@@ -26,7 +33,7 @@ const serviceSchema = mongoose.Schema({
     category:{
         type: String
     }
-}, { timestamps:true } )
+})
 
 // userSchema.pre('save', function( next ) {
 //     var user = this;
