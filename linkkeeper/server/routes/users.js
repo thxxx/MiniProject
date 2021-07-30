@@ -69,12 +69,5 @@ router.get("/logout", auth, (req, res) => {
     });
 });
 
-router.get('/getservice', (req, res)=> {
-    return res.status(200).json({
-        success:true,
-        message:"get done"
-    })
-})
-
 
 module.exports = router;
