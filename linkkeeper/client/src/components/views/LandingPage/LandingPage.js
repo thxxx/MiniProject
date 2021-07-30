@@ -4,11 +4,12 @@ import { Card, Button, Row, Col } from "antd";
 import axios from 'axios';
 import ResultCard from './ResultCard'
 import ShowLanding from './ShowLanding'
+import { useSelector } from 'react-redux';
 
 
 function LandingPage() {
-
-    const [showType, setShowType] = useState("none");
+    const user = useSelector(state => state.user)
+    const [showType, setShowType] = useState("none")
     const [options, setOptions] = useState({
         disease:false,
         workout:false,
@@ -17,14 +18,14 @@ function LandingPage() {
         saveMoney:false,
         scheduleMoney:false,
         selfImprovement:false,
-        headling:false,
+        healing:false,
         hobby:false,
         lifestyle:false,
         funny:false
     })
     const [results, setResults] = useState([1,2,3]);
     const [ResultLoad, setResultLoad] = useState(false);
-    const [Categories, setCategories] = useState(["disease","workout","tool","schoolStudy","saveMoney","scheduleMoney","selfImprovement","headling","hobby","lifestyle","funny"]);
+    const [Categories, setCategories] = useState(["disease","workout","tool","schoolStudy","saveMoney","scheduleMoney","selfImprovement","healing","hobby","lifestyle","funny"]);
 
     (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm", b="https://embed.typeform.com/"; if(!gi.call(d,id)) { js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })();
 
@@ -62,6 +63,27 @@ function LandingPage() {
             case "schoolStudy":
                 setOptions({...options, schoolStudy:!options["schoolStudy"]});
                 break;
+            case "saveMoney":
+                setOptions({...options, saveMoney:!options["saveMoney"]});
+                break;
+            case "scheduleMoney":
+                setOptions({...options, scheduleMoney:!options["scheduleMoney"]});
+                break;
+            case "selfImprovement":
+                setOptions({...options, selfImprovement:!options["selfImprovement"]});
+                break;
+            case "healing":
+                setOptions({...options, healing:!options["healing"]});
+                break;
+            case "hobby":
+                setOptions({...options, hobby:!options["hobby"]});
+                break;
+            case "lifestyle":
+                setOptions({...options, lifestyle:!options["lifestyle"]});
+                break;
+            case "funny":
+                setOptions({...options, funny:!options["funny"]});
+                break;
             default:
                 break;
         }
@@ -75,15 +97,15 @@ function LandingPage() {
     const categoryTable = Categories.map((category, index) => {
 
         const ca = category
+        let bcolor = "black"
+
+        options[category.toString()] ?  bcolor = "blue" : bcolor = "yellow"
 
         return (
             <Col key={index} lg={6} md={8} xs={24}>
-                <Button onClick={e => checkOptions(category)} style={{width: '100%', height: '100px' }}>
-                    {options[category.toString()] ? "true":"false"}
-                </Button>
-                <div style={style}>
+                <Button key={index} onClick={e => checkOptions(category)} style={{width: '100%', height: '100px', backgroundColor: `${bcolor}`}}>
                     {category}
-                </div>
+                </Button>
             </Col>
         )
     });
@@ -103,32 +125,20 @@ function LandingPage() {
         setResultLoad(false)
 
         const body = {
-            option:options
+            options:options
         }
 
-        axios.post('/api/services/getresult', body)
-            .then(response => {
-                if(response.data.success){
-                    console.log(response.data.message)
-                }else{
-                    console.log("실패")
-                }
-            })
-            .catch(err => {
-                console.log("에러메시지", err)
-            })
-
-        axios.get('/api/services/getservice')
-            .then(response => {
-                if(response.data.success){
-                    console.log(response.data.message)
-                }else{
-                    console.log("실패")
-                }
-            })
-            .catch(err => {
-                console.log("에러메시지", err)
-            })
+        // axios.post('/api/services/getresult', body)
+        //     .then(response => {
+        //         if(response.data.success){
+        //             console.log(response.data.message)
+        //         }else{
+        //             console.log("실패")
+        //         }
+        //     })
+        //     .catch(err => {
+        //         console.log("에러메시지", err)
+        //     })
 
         const delayTime = parseInt(Math.random()*1500 + 2000)
         await loadingResult(delayTime)
@@ -140,10 +150,17 @@ function LandingPage() {
     const showResults = results.map((result, index) => {
 
         return (
-            <Col key={index} lg={6} md={8} xs={24} style={resultCardOne}>
+            <>
+            <span key={index}>
+                <span>
+                    생산성 향상!
+                </span>
+            <Col lg={6} md={8} xs={24} style={resultCardOne}>
                 <ResultCard number={result} />
             </Col>
-        )
+            </span>
+            </>        
+            )
     })
 
     const showLoading = () => {
@@ -159,19 +176,12 @@ function LandingPage() {
             {categoryTable}
         </Row>
             <div className="app">
-                <span style={{ fontSize: '2rem' }}>
-                    Let's Start Coding!'
-                </span>
-            <h1 style={{fontSize:'5em'}}>옵션을 선택해 주세요</h1>
-            <hr />
             
             <Button onClick={getRecommendedResult}>추천받기.</Button>
 
             {
-            ResultLoad ? <span style={{display:"flex", justifycontent:"center"}}>
-                            <Row gutter={32, 16} style={{width:'80%'}}>
+            ResultLoad ? <span style={{display:"block", justifycontent:"center"}}>
                                 {showResults}
-                            </Row> 
                         </span> 
             : <div> {showLoading} 로딩 중</div>
             } 
