@@ -91,7 +91,7 @@ function LandingPage() {
     }
 
     const style = { background: '#0092ff', padding: '4px 4px' };
-    const resultCardOne = { };
+    const resultCardOne = { display: 'flex', width:"80%", border:'2px' };
 
 
     const categoryTable = Categories.map((category, index) => {
@@ -141,24 +141,19 @@ function LandingPage() {
         //     })
 
         const delayTime = parseInt(Math.random()*1500 + 2000)
+        
         await loadingResult(delayTime)
         console.log("시간이 지났습니다.")
         setResultLoad(true)
 
     }
 
+    // 결과를 보여주는 Map
     const showResults = results.map((result, index) => {
 
         return (
             <>
-            <span key={index}>
-                <span>
-                    생산성 향상!
-                </span>
-            <Col lg={6} md={8} xs={24} style={resultCardOne}>
                 <ResultCard number={result} />
-            </Col>
-            </span>
             </>        
             )
     })
@@ -180,13 +175,13 @@ function LandingPage() {
             <Button onClick={getRecommendedResult}>추천받기.</Button>
 
             {
-            ResultLoad ? <span style={{display:"block", justifycontent:"center"}}>
-                                {showResults}
-                        </span> 
-            : <div> {showLoading} 로딩 중</div>
+            ResultLoad ? <div> {showLoading} 로딩 중</div>
+            : <span style={{ justifycontent:"center"}}>
+            {showResults}
+            </span> 
             } 
             
-            <Button onClick={showTypeform}>버튼입니다.</Button>
+            <Button onClick={showTypeform}>{ showType==='none' ? "설문 조사 창 열기" : "설문조사 창 닫기"}</Button>
 
             <span style={{display: showType, width:'80%' }} >
                 <div className="typeform-widget" 

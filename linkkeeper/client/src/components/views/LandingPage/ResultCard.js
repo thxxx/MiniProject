@@ -1,12 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import { Card, Typography, Button } from "antd";
 
 const useStyles = makeStyles({
     root: {
@@ -17,36 +11,31 @@ const useStyles = makeStyles({
     },
   });
 
+const { Meta } = Card;
+
 const ResultCard = (props) => {
     const classes = useStyles();
 
     return (
-    <Card className={classes.root}>
-      <CardActionArea onClick={(e) => {console.log("click!")}}>
-        <CardMedia
-          className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            Lizard {props.number}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
+      <>
+      <span
+        style={{ width: 700, display:'flex', margin:10, border: '1px solid'}}
+      >
+        <span style={{display:'block', width:'30%', backgroundColor:'blue'}}>
+        <p> 토플 영단어 보카 </p>
+        <img style={{width:150}} src="https://play-lh.googleusercontent.com/FNXV9IWrS7n2VMq1R_bRqWXQw-n69fkSxovQ-Wt6BiW7S3T8UuYfymZ4hTXanrhyaaQ=s360-rw" />
+
+        <p>{props.number}</p>
+        </span>
+        <span style={{backgroundColor:'red', width:'70%'}}>
+        <Button style={{marginRight:'0'}}>서비스 비교하기</Button>
+        <p> 시간날 때 틈틈이 토플 단어를 외우는데 최적화 된 앱 </p>
+        <p> 100명 중 87명이 유용하다고 평가 </p>
+        <p> 100명 중 92명이 믿을만하다고 평가 </p>
+        <p> 추천 수 : {props.number} </p>
+        </span>
+      </span>
+      </>
     )
 }
 
