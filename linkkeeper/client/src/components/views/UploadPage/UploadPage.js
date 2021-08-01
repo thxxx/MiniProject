@@ -14,6 +14,8 @@ function UploadPage() {
     const [feature, setFeature] = useState('')
     const [category, setCategory] = useState('')
 
+    const [loadingResult,]
+
     const onNameChange = (e) => {
         setName(e.currentTarget.value)
     }
@@ -84,7 +86,7 @@ function UploadPage() {
                 <label> 링크 입니다. </label>
                 <input onChange={onLinkChange} value={link}>
                 </input>
-                <Button type='primary' size='large' onClick={onSubmitLink} >링크 제출</Button>
+                <Button type='primary' size='large' onClick={onSubmitLink}>링크 제출</Button>
             </div>
         </Form>
         <p>이름</p>
