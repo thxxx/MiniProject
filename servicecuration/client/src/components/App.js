@@ -23,7 +23,7 @@ function App() {
           <Route exact path="/" component={ LandingPage } />
           <Route exact path="/uploads" component={ UploadPage } />
           <Route exact path="/login" component={ LoginPage } />
-          <Route exact path="register" component={ RegisterPage } />
+          <Route exact path="/register" component={ RegisterPage } />
       </div>
         </Router>
       <Footer />
