@@ -10,10 +10,35 @@ function LoginPage() {
     const submitLogin = () => {
         const body = {
             userId : userId,
-            userPassword : userPassword,
+            userPassword : userPassword
         }
 
-        // axios는 서버의 응답 정보를 response의 data에 담는다. 이외에도
+        axios.post('/api/users/login', body)
+        .then( response => {
+            console.log(response, " 왔습니다.")
+        })
+        .catch(err => {
+            throw err;
+        })
+    }
+
+    return (
+        <div style={{display:'block'}}>
+            <Form onSubmit={submitLogin}>
+                <p> 아이디 </p>
+                <input type="email" value={userId} onChange={(e) => {setUserId(e.currentTarget.value)}}></input>
+                <p> 비밀번호 </p>
+                <input type="password" value={userPassword} onChange={(e) => {setUserPassword(e.currentTarget.value)}}></input>
+                <Button onClick={submitLogin}>로그인</Button>
+            </Form>
+        </div>
+    )
+}
+
+export default LoginPage
+
+
+  // axios는 서버의 응답 정보를 response의 data에 담는다. 이외에도
   // `status`는 서버 응답의 HTTP 상태 코드입니다.
 //   status: 200,
   // `statusText`는 서버 응답으로 부터의 HTTP 상태 메시지입니다.
@@ -27,24 +52,3 @@ function LoginPage() {
   // Node.js: ClientRequest 인스턴스(리디렉션)
     // request: {}
     // 등이 있음.
-        axios.post('/api/users/login', body)
-        .then( response => {
-            console.log(response, " 왔습니다.")
-        })
-        .catch(err => {
-            throw err;
-        })
-    }
-
-    return (
-        <div>
-            <Form onSubmit={submitLogin}>
-                <input type="email" value={userId} onChange={(e) => {setUserId(e.currentTarget.value)}}></input>
-                <input type="password" value={userPassword} onChange={(e) => {setUserPassword(e.currentTarget.value)}}></input>
-                <Button onClick={submitLogin}>로그인</Button>
-            </Form>
-        </div>
-    )
-}
-
-export default LoginPage
