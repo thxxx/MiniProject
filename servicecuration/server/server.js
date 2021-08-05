@@ -8,8 +8,11 @@ const dotenv = require("dotenv")
 dotenv.config();
 const conn = require('./config/databases')
 const cors = require('cors')
+const passport = require('passport') // 로그인 전략을 위한 passport
+const passportConfig = require('./passport') // passport폴더안에 index.js로 구현
 
 var app = express() // express 객체 생성
+passportConfig(passport)
 
 app.use(cors());
 app.use(express.json());
@@ -25,23 +28,28 @@ app.use(session({
   }
 }))
 app.use(logger('short'))
+app.use(passport.initialize()) // 요청에 passport설정을 심는다.
+app.use(passport.session()) // req.session객체에 passport정보를 저장.
+// session객체에 passport 정보를 저장하기 때문에 세션뒤에 나와야 함.
 
 // Router 관리
 app.use('/api/services', require('./routes/services'))
 app.use('/api/users', require('./routes/users'))
 
-app.get('/', function (req, res, next) {
-    console.log(req.session)
-    if(req.session.num === undefined){
-        req.session.num = 1;
-    }else{
-        req.session.num += 1;
-    }
-    conn.query("SELECT * FROM service", (err, results) => {
-        console.log(results);
-    })
-    res.send(`View ${req.session.num}`)
-})
+// Serve static assets if in production
+if (process.env.NODE_ENV === "production") {
+
+    // Set static folder   
+    // All the javascript and css files will be read and served from this folder
+    app.use(express.static("client/build"));
+  
+    // index.html for all page routes    html or routing and naviagtion
+    app.get("*", (req, res) => {
+        console.log("항상", req)
+        res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
+    });
+}
+
 app.listen(3001, () => {
     console.log('3001 open!')
 })

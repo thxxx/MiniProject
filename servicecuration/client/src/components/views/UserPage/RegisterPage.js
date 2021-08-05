@@ -19,7 +19,8 @@ function RegisterPage() {
 
         axios.post('/api/users/register', body)
         .then( response => {
-            if(response.data.success){
+            console.log("회원가입으로 받음", response)
+            if(response.data.registerSuccess){
                 alert("회원가입 성공!")
             }else{
                 alert("회원가입 실패!")
