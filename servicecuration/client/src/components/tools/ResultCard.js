@@ -10,7 +10,7 @@ const ResultCard = (props) => {
       >
         <span style={{display:'block', width:'30%', backgroundColor:'blue'}}>
         <p> 토플 영단어 보카 </p>
-        <img style={{width:150}} src="https://play-lh.googleusercontent.com/FNXV9IWrS7n2VMq1R_bRqWXQw-n69fkSxovQ-Wt6BiW7S3T8UuYfymZ4hTXanrhyaaQ=s360-rw" />
+        <img alt="ww" style={{width:150}} src="https://play-lh.googleusercontent.com/FNXV9IWrS7n2VMq1R_bRqWXQw-n69fkSxovQ-Wt6BiW7S3T8UuYfymZ4hTXanrhyaaQ=s360-rw" />
 
         <p>{props.number}</p>
         </span>

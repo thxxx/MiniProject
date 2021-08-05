@@ -1,12 +1,13 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import axios from 'axios';
 import ResultCard from '../../tools/ResultCard'
 import ShowLanding from './ShowLanding'
 import { Card, Button, Row, Col } from "antd";
-
+import { UserContext } from '../../../context/userContext'
 
 function LandingPage() {
+    const {users, setUsers} = useContext(UserContext)
     const [showType, setShowType] = useState("none")
     const [options, setOptions] = useState({
         disease:false,
@@ -25,8 +26,13 @@ function LandingPage() {
     const [ResultLoad, setResultLoad] = useState(false);
     const [Categories, setCategories] = useState(["disease","workout","tool","schoolStudy","saveMoney","scheduleMoney","selfImprovement","healing","hobby","lifestyle","funny"]);
 
+    console.log("유저 정보 입니다.", users)
 
     useEffect(() => {
+        axios.get('/', (err, res) => {
+            if(err) console.log("에러", err)
+            console.log(res);
+        })
         console.log('Hello welcome!');
     }, [])
     

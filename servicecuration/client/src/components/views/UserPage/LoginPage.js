@@ -1,11 +1,15 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Form, Button } from 'antd'
 import axios from 'axios'
+import {UserContext} from '../../../context/userContext';
 
-function LoginPage() {
+function LoginPage(props) {
+    const {users, setUsers} = useContext(UserContext)
     const [userId, setUserId] = useState("");
     const [userPassword, setUserPassword] = useState("");
+
+    console.log("user", users)
 
     const submitLogin = () => {
         const body = {
@@ -15,7 +19,12 @@ function LoginPage() {
 
         axios.post('/api/users/login', body)
         .then( response => {
+          // context API 안에 저장해야한다.
             console.log(response, " 왔습니다.")
+            if(response.data.loginSuccess){
+              setUsers(response.data.user)
+              props.history.push('/');
+            }
         })
         .catch(err => {
             throw err;
@@ -26,9 +35,9 @@ function LoginPage() {
         <div style={{display:'block'}}>
             <Form onSubmit={submitLogin}>
                 <p> 아이디 </p>
-                <input type="email" value={userId} onChange={(e) => {setUserId(e.currentTarget.value)}}></input>
+                <input type="email" id="email" value={userId} onChange={(e) => {setUserId(e.currentTarget.value)}}></input>
                 <p> 비밀번호 </p>
-                <input type="password" value={userPassword} onChange={(e) => {setUserPassword(e.currentTarget.value)}}></input>
+                <input type="password" id="password" value={userPassword} onChange={(e) => {setUserPassword(e.currentTarget.value)}}></input>
                 <Button onClick={submitLogin}>로그인</Button>
             </Form>
         </div>
