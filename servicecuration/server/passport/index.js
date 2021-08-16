@@ -12,7 +12,7 @@ module.exports = (passport) => {
 
     passport.deserializeUser(function(id, done) {
         console.log("디시리얼라이즈")
-        //성공한 정보갖고 활용할때 새로고침할때 계속 사용된다.
+        // 성공한 정보갖고 활용할때 새로고침할때 계속 사용된다.
         // User_code가 id(첫번째 인자)로 넘어온다.
         console.log("Hello World", id);
 

@@ -8,7 +8,6 @@ import UploadPage from "./views/UploadPage/UploadPage"
 import Footer from "./views/Footer/Footer"
 import LoginPage from "./views/UserPage/LoginPage"
 import RegisterPage from "./views/UserPage/RegisterPage"
-import UserStore from '../context/userContext'
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -17,7 +16,6 @@ import UserStore from '../context/userContext'
 function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
-    <UserStore>
         <Router>
           <NavBar />
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
@@ -30,7 +28,6 @@ function App() {
       </div>
         </Router>
       <Footer />
-    </UserStore>
     </Suspense>
   );
 }

@@ -112,8 +112,10 @@ function LandingPage() {
             <Row gutter={32, 16}>
                     {categoryTable}
             </Row>
+        </div>
+
+        <div style={{display:'flex', justifyContent:'center'}}>
         <ResultCard />
-        
         </div>
                     
         <Button onClick={showTypeform}>{ showType==='none' ? "설문 조사 창 열기" : "설문조사 창 닫기"}</Button>

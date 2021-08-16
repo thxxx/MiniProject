@@ -14,8 +14,6 @@ function UploadPage() {
     const [feature, setFeature] = useState('')
     const [category, setCategory] = useState('')
 
-    const [loadingResult,]
-
     const onNameChange = (e) => {
         setName(e.currentTarget.value)
     }
