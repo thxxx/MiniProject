@@ -25,7 +25,7 @@ router.post('/register', async (req, res) => {
                 success:false,
                 message: "이미 존재하는 아이디입니다."
             })
-        }else{
+        } else {
             const sql = "INSERT INTO user (userId, gender, job, password) VALUES(?,?,?,?)"
             const params = [userId, gender, job, password]
         

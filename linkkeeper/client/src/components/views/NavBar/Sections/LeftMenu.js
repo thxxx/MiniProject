@@ -1,5 +1,6 @@
 import React from 'react';
 import { Menu } from 'antd';
+import { Link } from 'react-router-dom';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
@@ -20,7 +21,7 @@ function LeftMenu(props) {
       </MenuItemGroup>
     </SubMenu>
     <Menu.Item key="upload">
-      <a href="/upload">Upload</a>
+      <Link to="/upload">Upload</Link>
     </Menu.Item>
   </Menu>
   )

@@ -32,6 +32,12 @@ app.use(passport.initialize()) // 요청에 passport설정을 심는다.
 app.use(passport.session()) // req.session객체에 passport정보를 저장.
 // session객체에 passport 정보를 저장하기 때문에 세션뒤에 나와야 함.
 
+app.get('/', (req, res) => {
+    console.log("항상", req)
+    res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
+});
+
+
 // Router 관리
 app.use('/api/services', require('./routes/services'))
 app.use('/api/users', require('./routes/users'))
@@ -44,10 +50,7 @@ if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));
   
     // index.html for all page routes    html or routing and naviagtion
-    app.get("*", (req, res) => {
-        console.log("항상", req)
-        res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
-    });
+    
 }
 
 app.listen(3001, () => {

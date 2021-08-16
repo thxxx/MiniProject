@@ -11,4 +11,4 @@ const db_info = {
 const db = mysql.createConnection(db_info)
 db.connect()
 
-module.exports = db;
+module.exports = db

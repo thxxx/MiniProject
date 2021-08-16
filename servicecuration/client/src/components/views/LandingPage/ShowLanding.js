@@ -8,7 +8,7 @@ function ShowLanding() {
         setUsers({
             close:"close"
         })
-        axios.get('/api/users/logout')
+        axios.get('/api/services')
         .then( response => {console.log("되도디되도디ㅗ디ㅚ됟ㅆ나", response)})
         .catch((err) => {throw err})
     }
