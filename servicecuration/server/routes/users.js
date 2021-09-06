@@ -69,7 +69,6 @@ router.post('/login', isNotLogined, function(req, res, next) {
     })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙인다.
 })
 
-
 router.get('/logout', isLogined, (req, res) => {
     req.logout();
 	request.session.save((err) => {
